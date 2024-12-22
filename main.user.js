@@ -34,6 +34,7 @@ class MobModel {
 
 class Model{
     constructor(){
+        this.mob = null;
         this.mobs=[
             new MobModel(
                 "Świąteczny Cerber",
@@ -46,7 +47,7 @@ class Model{
                 "1319042994711826433",
             ),
         ]
-        this.mob = null;
+        
     }
     checkMobs(npc){
         if(npc.d.type != 4){
