@@ -11,6 +11,7 @@
 /*
 global API
 global Engine
+global log
 */
 
 function lg(text){
@@ -66,7 +67,6 @@ class Model{
                 "https://discord.com/api/webhooks/1324649639261114368/7zDTWl14wczNDHc4gzmR2B0s4f0J_2eDCzcZbVLQgGGr9WtdMutBbZlCb8Xfj-bNcdP1",
                 "1033782428986249287",
             ),
-            
         ]
 
     }
@@ -88,6 +88,7 @@ class Controller {
         this.model = model;
         this.run();
     }
+
     run(){
         API.addCallbackToEvent("newNpc", (npc) => {
             if(this.model.checkMobs(npc)){
@@ -135,8 +136,14 @@ class Controller {
 
 (function() {
     'use strict';
-    if(Engine.hero.d.clan.id == 1131 || Engine.hero.d.clan.id == 3452){
+    window.addEventListener('load', (event) => {
+        if(!(Engine.hero.d.clan.id == 1131 || Engine.hero.d.clan.id == 3452)){
+            log("Poza klanem, kończymy")
+            return 0
+        }
         let model = new Model()
         let program = new Controller(model);
-    }
+    });
+
+
 })();
