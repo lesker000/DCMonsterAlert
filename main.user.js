@@ -46,6 +46,11 @@ class Model{
                 "https://discord.com/api/webhooks/1319417375497654343/U5sW_og3js6RZHojKoqBF-NnKznK_zSviFL21wRjFaO25rGy943ZKpWfRBYI_KbhpPOL",
                 "1319042994711826433",
             ),
+            new MobModel(
+                "Mroczny Patryk",
+                "https://discord.com/api/webhooks/1324649639261114368/7zDTWl14wczNDHc4gzmR2B0s4f0J_2eDCzcZbVLQgGGr9WtdMutBbZlCb8Xfj-bNcdP1",
+                "1033820862870212649",
+            ),
         ]
 
     }
