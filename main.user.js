@@ -38,8 +38,8 @@ class Model{
         this.mobs=[
             new MobModel(
                 "Świąteczny Cerber",
-                "https://discord.com/api/webhooks/1319411938228441209/t9LkmWDBXqOCr1T_uMJwaYDcgGoial_uwgZmDIwiUKbNWJ7f0IfUkPE0uEQauv_EfI2R",
-                "1319069418508128319",
+                "https://discord.com/api/webhooks/1319417375497654343/U5sW_og3js6RZHojKoqBF-NnKznK_zSviFL21wRjFaO25rGy943ZKpWfRBYI_KbhpPOL",
+                "1319042994711826433",
             ),
             new MobModel(
                 "Świąteczny Tarrol Agze",
@@ -47,7 +47,7 @@ class Model{
                 "1319042994711826433",
             ),
         ]
-        
+
     }
     checkMobs(npc){
         if(npc.d.type != 4){
