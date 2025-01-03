@@ -51,6 +51,22 @@ class Model{
                 "https://discord.com/api/webhooks/1324649639261114368/7zDTWl14wczNDHc4gzmR2B0s4f0J_2eDCzcZbVLQgGGr9WtdMutBbZlCb8Xfj-bNcdP1",
                 "1033820862870212649",
             ),
+            new MobModel(
+                "Karmazynowy Mściciel",
+                "https://discord.com/api/webhooks/1324649639261114368/7zDTWl14wczNDHc4gzmR2B0s4f0J_2eDCzcZbVLQgGGr9WtdMutBbZlCb8Xfj-bNcdP1",
+                "1033782214418239589",
+            ),
+            new MobModel(
+                "Złodziej",
+                "https://discord.com/api/webhooks/1324649639261114368/7zDTWl14wczNDHc4gzmR2B0s4f0J_2eDCzcZbVLQgGGr9WtdMutBbZlCb8Xfj-bNcdP1",
+                "1033782846885728256",
+            ),
+            new MobModel(
+                "Zły Przewodnik",
+                "https://discord.com/api/webhooks/1324649639261114368/7zDTWl14wczNDHc4gzmR2B0s4f0J_2eDCzcZbVLQgGGr9WtdMutBbZlCb8Xfj-bNcdP1",
+                "1033782428986249287",
+            ),
+            
         ]
 
     }
