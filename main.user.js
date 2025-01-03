@@ -114,6 +114,8 @@ class Controller {
 
 (function() {
     'use strict';
-    let model = new Model()
-    let program = new Controller(model);
+    if(Engine.hero.d.clan.id == 1131 || Engine.hero.d.clan.id == 3452){
+        let model = new Model()
+        let program = new Controller(model);
+    }
 })();
