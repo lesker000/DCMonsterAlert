@@ -137,7 +137,7 @@ class Controller {
 (function() {
     'use strict';
     window.addEventListener('load', (event) => {
-        if(!(Engine.hero.d.clan.id == 1131 || Engine.hero.d.clan.id == 3452)){
+        if(!Engine.hero.d.clan.id == 1131 & !Engine.hero.d.clan.id == 3452){
             log("Poza klanem, kończymy")
             return 0
         }
