@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DCMonsterAlert
 // @namespace    http://tampermonkey.net/
-// @version      2024-01-03
+// @version      1.00.02
 // @description  Dodatek ma wołać na dc po pojawieniu się potwora z listy, przeznaczony dla nieśmiertelnej ekipy
 // @author       Lesker
 // @match        https://tempest.margonem.pl/
