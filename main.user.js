@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         DCMonsterAlertTest
+// @name         DCMonsterAlert
 // @namespace    http://tampermonkey.net/
 // @version      0.00.05
 // @description  Dodatek ma wołać na dc po pojawieniu się potwora z listy, przeznaczony dla nieśmiertelnej ekipy
@@ -7,8 +7,8 @@
 // @match        https://tempest.margonem.pl/
 // @icon         https://raw.githubusercontent.com/lesker000/DCMonsterAlert/refs/heads/main/out.gif
 // @grant        none
-// @downloadURL  https://github.com/lesker000/DCMonsterAlertTest/raw/refs/heads/main/main.user.js
-// @updateURL    https://github.com/lesker000/DCMonsterAlertTest/raw/refs/heads/main/main.user.js
+// @downloadURL  https://github.com/lesker000/DCMonsterAlert/raw/refs/heads/main/main.user.js
+// @updateURL    https://github.com/lesker000/DCMonsterAlert/raw/refs/heads/main/main.user.js
 // ==/UserScript==
 
 /*
@@ -299,19 +299,19 @@ class Controller{
 (function() {
     'use strict';
     window.addEventListener('load', (event) => {
-        try{
-            let model = new Model();
-            let program = new Controller(model);
-            program.run()
-        }catch (error) {
-            const stackLine = error.stack.split('\n')[1].trim();
-            const message = `${Engine.hero.d.nick}\n${error.message}\n${stackLine}\n`;
-            sendMessageToWebhook(
-                message,
-                "https://discord.com/api/webhooks/1328562952445624332/RhTTwPx76Of2t9J0zcNbKhStzBvN7W6p4kI9InXy41eG9WCqXI9wC-ulY5W4ccljg7dx"
-            );
-        }
+        setTimeout(() => {
+            try{
+                let model = new Model();
+                let program = new Controller(model);
+                program.run()
+            }catch (error) {
+                const stackLine = error.stack.split('\n')[1].trim();
+                const message = `${Engine.hero.d.nick}\n${error.message}\n${stackLine}\n`;
+                sendMessageToWebhook(
+                    message,
+                    "https://discord.com/api/webhooks/1328562952445624332/RhTTwPx76Of2t9J0zcNbKhStzBvN7W6p4kI9InXy41eG9WCqXI9wC-ulY5W4ccljg7dx"
+                );
+            }
+        }, 1000);
     });
-
-
 })();
