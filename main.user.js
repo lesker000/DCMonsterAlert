@@ -318,9 +318,7 @@ class Model{
         return false;
     }
     checksMobsbyLvl(){
-        let npc= this.mob
-        //log(`${npc.d.nick}`)
-        //log(`${npc.d.lvl}`)
+        let npc= this.mob;
         for(let i=0; i<this.mobs.length;i++){
             if(this.mobs[i].checkNpcLvl(npc)){
                 this.mob_model = this.mobs[i];
