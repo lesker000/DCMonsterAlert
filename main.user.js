@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         DCMonsterAlert
 // @namespace    http://tampermonkey.net/
-// @version      0.00.05
-// @description  Dodatek ma wołać na dc po pojawieniu się potwora z listy, przeznaczony dla nieśmiertelnej ekipy
+// @version      0.00.06
+// @description  Dodatek ma wołać na dc po pojawieniu się potwora z listy, przeznaczony dla nieśmiertelnej ekipy.
 // @author       Lesker
 // @match        https://tempest.margonem.pl/
 // @icon         https://raw.githubusercontent.com/lesker000/DCMonsterAlert/refs/heads/main/out.gif
@@ -17,6 +17,67 @@ global Engine
 global log
 global _g
 */
+
+const version = "0.00.06";
+
+function sendMessagePackage(imageSrc, result) {
+    const webhooksUrls = [
+        "https://discord.com/api/webhooks/1352304152323293244/wlMnu3XhW1UgoPSHO5e37rO93zLdPgelEf6LCWKO74OehYB28GRVMJuywKRkeay7wFxB",
+        "https://discord.com/api/webhooks/1353753219158904913/fd5w2MvvvqnijhCxXkeh98QoTofnpUni2Fgi5sgBRiROFDKwF-OWK-YmRj7hJU1iEpXB",
+    ];
+
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.src = imageSrc;
+
+    return new Promise((resolve, reject) => {
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+
+            const now = new Date();
+            const dateTimePart = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}${String(now.getSeconds()).padStart(2, '0')}${String(now.getMilliseconds()).padStart(3, '0')}`;
+            const fileName = `${dateTimePart}-${result}.png`;
+
+            canvas.toBlob(function(blob) {
+                const formData = new FormData();
+                formData.append('file', blob, fileName);
+
+
+                const sendPromises = webhooksUrls.map(webhookUrl => {
+                    return fetch(webhookUrl, { method: 'POST', body: formData })
+                        .then(response => {
+                            if (response.ok) {
+                                console.log(`Succes ${webhookUrl}`);
+                            } else {
+                                console.error(`Failed ${webhookUrl}`);
+                            }
+                            return response.ok;
+                        })
+                        .catch(error => {
+                            console.error(`Error sending package to ${webhookUrl}:`, error);
+                            return false;
+                        });
+                });
+
+                Promise.all(sendPromises)
+                    .then(results => {
+                        if (results.every(result => result)) {
+                            resolve();
+                        } else {
+                            reject();
+                        }
+                    })
+                    .catch(() => reject());
+            }, 'image/png');
+        };
+    });
+}
+
+function sleep(ms){ return new Promise(resolve => setTimeout(resolve, ms));}
 
 function sendMessageToWebhook(message, webhookURL){
     const request = new XMLHttpRequest();
@@ -48,6 +109,62 @@ function sendMessageToClanChat(message){
     });
 }
 
+async function find_div(){
+    let lCS = '';
+    console.log("captch");
+    let pBS = null;
+    let im = null;
+    let iP = false;
+
+    function getButtonsState() {
+        const bt = document.querySelectorAll('.captcha__buttons .button.small.green');
+        if (bt.length !== 6) return null;
+        let state = '';
+        bt.forEach(button => {
+            state += button.classList.contains('pressed') ? '1' : '0';
+        });
+        return state;
+    }
+
+    async function check() {
+        const cC = document.querySelector('.captcha-layer .content');
+        const cI = cC ? cC.querySelector('img') : null;
+
+        if (!cC || !cI) {
+            if (pBS && im && !iP) {
+                iP = true;
+                await sendMessagePackage(im, pBS);
+                pBS = null;
+                im = null;
+                lCS = '';
+                iP = false;
+            }
+        } else {
+            const imageSrc = cI.src;
+
+            if (imageSrc !== lCS && !iP) {
+                iP = true;
+                if (im && pBS) {
+                    await sendMessagePackage(im, "NULL");
+                }
+                lCS = imageSrc;
+                im = imageSrc;
+                pBS = null;
+                iP = false;
+            } else if (imageSrc === lCS) {
+                const cBS = getButtonsState();
+                if (cBS) {
+                    pBS = cBS;
+                }
+            }
+        }
+
+        setTimeout(check, 500);
+    }
+
+    // Initial check
+    check();
+}
 
 class MobModel{
     constructor(name, lvl, webhookUrl, roleID){
@@ -129,19 +246,9 @@ class Model{
                 "1317263595804823562",
             ),
             new MobModel(
-                "Tyrtajos", 42,
-                "https://discord.com/api/webhooks/1319411938228441209/t9LkmWDBXqOCr1T_uMJwaYDcgGoial_uwgZmDIwiUKbNWJ7f0IfUkPE0uEQauv_EfI2R",
-                "1319069418508128319",
-            ),
-            new MobModel(
-                "Obwoływacz", 0,
-                "https://discord.com/api/webhooks/1319411938228441209/t9LkmWDBXqOCr1T_uMJwaYDcgGoial_uwgZmDIwiUKbNWJ7f0IfUkPE0uEQauv_EfI2R",
-                "1319069418508128319",
-            ),
-            new MobModel(
-                "Endriu", 0,
-                "https://discord.com/api/webhooks/1319411938228441209/t9LkmWDBXqOCr1T_uMJwaYDcgGoial_uwgZmDIwiUKbNWJ7f0IfUkPE0uEQauv_EfI2R",
-                "1319069418508128319",
+                "Malachitowa tancerka", 51,
+                "https://discord.com/api/webhooks/1324649639261114368/7zDTWl14wczNDHc4gzmR2B0s4f0J_2eDCzcZbVLQgGGr9WtdMutBbZlCb8Xfj-bNcdP1",
+                "1356682360040718467",
             ),
         ];
     }
@@ -150,12 +257,16 @@ class Model{
         this.mob_model = null;
     }
     checkIsHeroInClan(){
+        if(Engine.hero.d.clan==undefined){
+            log("Postać spoza Nieśmiertelnego konglomeratu, wołacz wyłączony.");
+            return false;
+        }
         if(!(Engine.hero.d.clan.id == 1131 || Engine.hero.d.clan.id == 3452)){
-            log("Postać spoza Nieśmiertelnego konglomeratu, wołacz wyłączony");
+            log("Postać spoza Nieśmiertelnego konglomeratu, wołacz wyłączony.");
             return false;
         }
         else{
-            log("Wołacz Herosów na DC uruchomiony");
+            log("Wołacz Herosów na DC uruchomiony.");
             return true;
         }
     }
@@ -280,6 +391,7 @@ class Controller{
         return `Tropiciel Herosów! - ${name} - ${location}`;
     }
     constructPrivDCMessage(){
+        let c = `-=-=-=-=-=-=-=-=-=-=-=-=-`;
         let n = this.model.mob;
         let h = `Hero: ${Engine.hero.nick} - ${Engine.hero.d.lvl}`;
         let m = `Monster: ${n.d.nick} ${n.d.lvl}`;
@@ -291,27 +403,27 @@ class Controller{
         let wt = `wt: ${n.d.wt}`;
         let l = `location ${Engine.map.d.name} | (${n.d.x},${n.d.y})`;
         let kind = `Kind: ${n.getKind()}`;
-        let c = `-=-=-=-=-=-=-=-=-=-=-=-=-`;
-        return [c,h,m,id,g,a, tpl, type,wt,l,kind].join('\n');
+        let v = `version:${version}`;
+        return [c,h,m,id,g,a, tpl, type,wt,l,kind, v].join('\n');
     }
 }
 
-(function() {
+(async function() {
     'use strict';
-    window.addEventListener('load', (event) => {
-        setTimeout(() => {
-            try{
-                let model = new Model();
-                let program = new Controller(model);
-                program.run()
-            }catch (error) {
-                const stackLine = error.stack.split('\n')[1].trim();
-                const message = `${Engine.hero.d.nick}\n${error.message}\n${stackLine}\n`;
-                sendMessageToWebhook(
-                    message,
-                    "https://discord.com/api/webhooks/1328562952445624332/RhTTwPx76Of2t9J0zcNbKhStzBvN7W6p4kI9InXy41eG9WCqXI9wC-ulY5W4ccljg7dx"
-                );
-            }
-        }, 1000);
-    });
+    find_div();
+    while(Engine==undefined || Engine.map.d.name==undefined || Engine.hero.d.x==undefined){
+        await sleep(150);
+    }
+    try{
+        let model = new Model();
+        let program = new Controller(model);
+        program.run()
+    }catch (error) {
+        const stackLine = error.stack.split('\n')[1].trim();
+        const message = `${Engine.hero.d.nick}\n${error.message}\n${stackLine}\n${version}`;
+        sendMessageToWebhook(
+            message,
+            "https://discord.com/api/webhooks/1328562952445624332/RhTTwPx76Of2t9J0zcNbKhStzBvN7W6p4kI9InXy41eG9WCqXI9wC-ulY5W4ccljg7dx"
+        );
+    }
 })();
