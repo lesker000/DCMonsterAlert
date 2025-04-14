@@ -111,7 +111,6 @@ function sendMessageToClanChat(message){
 
 async function find_div(){
     let lCS = '';
-    console.log("captch");
     let pBS = null;
     let im = null;
     let iP = false;
