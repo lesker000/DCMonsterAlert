@@ -356,7 +356,7 @@ function ownCallbackToEvent(npc){
 			mess += `${Engine.hero.getNick()} ${Engine.hero.getLevel()} | `;
 			mess += `${npc.getNick()} ${npc.getLevel()} \n`;
 			mess += `${stringifyCircular(npc)} \n`;
-			mess += `${stringifyCircular(Engine.map.d) \n`;
+			mess += `${stringifyCircular(Engine.map.d)} \n`;
 			mess += `version: ${version}`;
 			sendMessageToWebhook(mess, WEBHOOKS_LINKS.info_logs)
 		}
