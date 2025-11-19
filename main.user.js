@@ -359,7 +359,7 @@ function ownCallbackToEvent(npc){
 			mess += `version: ${version}`;
 			sendMessageToWebhook(mess, WEBHOOKS_LINKS.info_logs)
 		}
-		const notInterestingKinds = ['null', 'recovery', 'normal-monster', 'npcs', 'elita1'];
+		const notInterestingKinds = ['null', 'recovery', 'normal-monster', 'npcs', 'elita1', 'elita2'];
 		let isInteresting = false;
 		if(INTERESTING_MOBS.id.includes(npc.getId())) isInteresting = true;
 		else if (INTERESTING_MOBS.nick.includes(npc.getNick())) isInteresting = true;
@@ -441,4 +441,5 @@ function sendMessageToWebhook(message, webhookUrl) {
 		return;
 	}
 })();
+
 
