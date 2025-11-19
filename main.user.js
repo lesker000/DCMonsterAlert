@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name DCMonsterAlert2
+// @name DCMonsterAlert
 // @namespace http://tampermonkey.net/
 // @version 0.09
 // @description Dodatek ma wołać na dc po pojawieniu się potwora z listy, przeznaczony dla nieśmiertelnej ekipy.
@@ -441,3 +441,4 @@ function sendMessageToWebhook(message, webhookUrl) {
 		return;
 	}
 })();
+
